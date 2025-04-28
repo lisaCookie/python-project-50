@@ -1,27 +1,38 @@
-import json
 import sys
 
-def load_json(filepath):
-    with open(filepath, 'r') as file:
-        return json.load(file)
+from .diff import generate_diff
 
-def generate_diff(filepath1, filepath2):
-   
-    data1 = load_json(filepath1)
-    data2 = load_json(filepath2)
 
-    keys = set(data1.keys()).union(set(data2.keys()))
-    result = []
+def text():
+    help_text = """
+    gendiff -h
+    usage: gendiff [-h] [-f FORMAT] first_file second_file
 
-    for key in sorted(keys):
-        if key in data1 and key not in data2:
-            result.append(f"  - {key}: {data1[key]}")
-        elif key not in data1 and key in data2:
-            result.append(f"  + {key}: {data2[key]}")
-        elif data1[key] != data2[key]:
-            result.append(f"  - {key}: {data1[key]}")
-            result.append(f"  + {key}: {data2[key]}")
-        else:  
-            result.append(f"    {key}: {data1[key]}")
+    Compares two configuration files and shows a difference.
 
-    return "{\n" + "\n".join(result) + "\n}"
+    positional arguments:
+    first_file
+    second_file
+
+    optional arguments:
+    -h, --help            show this help message and exit
+    -f FORMAT, --format FORMAT
+                        set format of output
+    """
+    print(help_text)
+
+
+def main():
+    
+    if len(sys.argv) != 3:
+        print("Usage: gendiff filepath1.json filepath2.json")
+        sys.exit(1)
+
+    filepath1 = sys.argv[1]
+    filepath2 = sys.argv[2]
+    differences = generate_diff(filepath1, filepath2)
+    print(differences)
+
+
+if __name__ == "__main__":
+    main()

@@ -17,5 +17,4 @@ build-backend = "hatchling.build"
 packages = ["gendiff"]
 
 [project.scripts]
-gendiff = "gendiff.scripts.gendiff:main"
-diff = "gendiff.diff_script:main"
+gendiff = "gendiff.gendiff:main"
