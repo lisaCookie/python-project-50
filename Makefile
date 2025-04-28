@@ -11,3 +11,6 @@ package-install:
 
 gendif:
 	uv run gendiff
+
+diff:
+	uv run diff_script.py filepath1.json filepath2.json
