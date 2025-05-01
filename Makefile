@@ -13,5 +13,9 @@ lint:
 	uv run ruff check --fix gendiff
 
 
+check:
+	uv run pytest --cov
+
+
 test:
-	 pytest
+	uv run pytest
