@@ -17,7 +17,7 @@ def test_load_json():
     assert load_json(filepath1) == {
         "host": "hexlet.io",
         "timeout": 50,
-        "proxy": "123.234.53.22",
+        "proxy": "192.168.12.42",
         "follow": False
     }
     assert load_json(filepath2) == {
@@ -36,7 +36,7 @@ def test_generate_diff():
     result = generate_diff(filepath1, filepath2)
     assert "{\n" in result
     assert "  - follow: False" in result
-    assert "  - proxy: 123.234.53.22" in result
+    assert "  - proxy: 192.168.12.42" in result
     assert "  - timeout: 50" in result
     assert "  + timeout: 20" in result
     assert "  + verbose: True" in result
@@ -47,7 +47,7 @@ def test_generate_diff():
         "{\n"
         "    follow: False\n"
         "    host: hexlet.io\n"
-        "    proxy: 123.234.53.22\n"
+        "    proxy: 192.168.12.42\n"
         "    timeout: 50\n"
         "}"
     )
