@@ -33,4 +33,4 @@ jobs:
             -Dsonar.projectKey=lisaCookie_python-project-50
             -Dsonar.organization=lisaCookie
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.analysis.mode=PRECISE
+            -Dsonar.analysis.method=PRECISE
