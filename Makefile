@@ -18,5 +18,5 @@ test-coverage:
 	uv run pytest --cov
 
 
-test:
+check:
 	uv run pytest
