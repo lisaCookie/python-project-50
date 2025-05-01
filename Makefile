@@ -14,4 +14,4 @@ lint:
 
 
 test:
-	uv run pytest
+	 pytest
