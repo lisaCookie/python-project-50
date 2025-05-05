@@ -30,7 +30,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=lisaCookie_python-project-501
+            -Dsonar.projectKey=lisaCookie_python-project-50
             -Dsonar.organization=lisacookie
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.python.version=3.12
