@@ -20,5 +20,4 @@ packages = ["gendiff"]
 
 [project.scripts]
 gendiff = "gendiff.gendiff:main"
-generate_diff = "gendiff.generate_diff:main"
-gendiff_yaml = "gendiff.gendiff_yaml:main"
+

@@ -1,31 +1,61 @@
+import json
 import os
+from gendiff.gendiff import gendiff  
+from gendiff.load_yaml import load_yaml  
+from gendiff.load_json import load_json
 
-from gendiff.generate_diff import generate_diff
+def test_load_file_json():
+    json_file = 'test_file.json'
+    with open(json_file, 'w') as f:
+        json.dump({"key1": "value1", "key2": "value2"}, f)
 
-filepath1 = os.path.join('files', 'file1.json')
-filepath2 = os.path.join('files', 'file2.json')
+    data = load_json(json_file)
+    assert data == {"key1": "value1", "key2": "value2"}
 
+    os.remove(json_file)
 
-def test_generate_diff():
-    result = generate_diff(filepath1, filepath2)
-    assert "{\n" in result
-    assert "  - follow: False" in result
-    assert "  - proxy: 192.168.12.42" in result
-    assert "  - timeout: 50" in result
-    assert "  + timeout: 20" in result
-    assert "  + verbose: True" in result
-    assert "    host: hexlet.io" in result
+def test_load_file_yaml():
+    yaml_file = 'test_file.yaml'
+    with open(yaml_file, 'w') as f:
+        f.write("key1: value1\nkey2: value2\n")
 
-    result_same = generate_diff(filepath1, filepath1)
-    assert result_same.strip() == (
-        "{\n"
-        "    follow: False\n"
-        "    host: hexlet.io\n"
-        "    proxy: 192.168.12.42\n"
-        "    timeout: 50\n"
-        "}"
-    )
+    data = load_yaml(yaml_file)
+    assert data == {"key1": "value1", "key2": "value2"}
 
+    os.remove(yaml_file)
+
+def test_gendiff_json():
+    json_file1 = 'test_file1.json'
+    json_file2 = 'test_file2.json'
+    with open(json_file1, 'w') as f:
+        json.dump({"key1": "value1", "key2": "value2"}, f)
+    with open(json_file2, 'w') as f:
+        json.dump({"key2": "value2", "key3": "value3"}, f)
+
+    expected_diff = "{\n  - key1: value1\n  + key3: value3\n}"
+    diff = gendiff(json_file1, json_file2)
+    assert diff == expected_diff
+
+    os.remove(json_file1)
+    os.remove(json_file2)
+
+def test_gendiff_yaml():
+    yaml_file1 = 'test_file1.yaml'
+    yaml_file2 = 'test_file2.yaml'
+    with open(yaml_file1, 'w') as f:
+        f.write("key1: value1\nkey2: value2\n")
+    with open(yaml_file2, 'w') as f:
+        f.write("key2: value2\nkey3: value3\n")
+
+    expected_diff = "{\n  - key1: value1\n  + key3: value3\n}"
+    diff = gendiff(yaml_file1, yaml_file2)
+    assert diff == expected_diff
+
+    os.remove(yaml_file1)
+    os.remove(yaml_file2)
 
 if __name__ == "__main__":
-    test_generate_diff()
+    test_load_file_json()
+    test_load_file_yaml()
+    test_gendiff_json()
+    test_gendiff_yaml()

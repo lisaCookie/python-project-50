@@ -22,6 +22,3 @@ check:
 	uv run pytest
 
 
-diff_yaml:
-
-	python3 -m gendiff.gendiff_yaml file1.yaml file2.yaml
