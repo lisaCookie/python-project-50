@@ -1,9 +1,5 @@
-import sys
 
-from .diff import generate_diff
-
-
-def text():
+def main():
     help_text = """
     gendiff -h
     usage: gendiff [-h] [-f FORMAT] first_file second_file
@@ -21,18 +17,6 @@ def text():
     """
     print(help_text)
 
-
-def main():
-    text()
-    if len(sys.argv) != 3:
-        print("Usage: gendiff filepath1.json filepath2.json")
-        sys.exit(1)
-
-    filepath1 = sys.argv[1]
-    filepath2 = sys.argv[2]
-    differences = generate_diff(filepath1, filepath2)
-    print(differences)
-    
 
 if __name__ == "__main__":
     main()

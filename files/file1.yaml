@@ -1,0 +1,4 @@
+host: hexlet.io
+timeout: 50
+proxy: 192.168.12.42
+follow: false
