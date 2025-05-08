@@ -2,6 +2,7 @@ import os
 import pytest
 from gendiff.gendiff import generate_diff
 from formatters.stylish import format_value
+from gendiff.load_json import load_json
 
 def test_plain_formatting():
     file1 = '/home/lisa/python-project-50/files/file1.json'
