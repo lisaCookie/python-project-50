@@ -1,3 +1,4 @@
+import json
 import os
 import pytest
 from gendiff.gendiff import generate_diff
