@@ -1,61 +1,104 @@
 import json
 import os
-from gendiff.gendiff import gendiff  
-from gendiff.load_yaml import load_yaml  
+
+from gendiff.gendiff import (
+    compute_diff,
+    format_value,
+    generate_diff,
+    load_file,
+)
 from gendiff.load_json import load_json
+from gendiff.load_yaml import load_yaml
 
-def test_load_file_json():
-    json_file = 'test_file.json'
-    with open(json_file, 'w') as f:
-        json.dump({"key1": "value1", "key2": "value2"}, f)
 
-    data = load_json(json_file)
-    assert data == {"key1": "value1", "key2": "value2"}
+def create_test_files():
+    yaml_content = "key1: value1\nkey2: value2"
+    json_content = {'key1': 'value1', 'key3': 'value3'}
 
-    os.remove(json_file)
+    with open('test1.yaml', 'w') as f:
+        f.write(yaml_content)
+    
+    with open('test2.json', 'w') as f:
+        json.dump(json_content, f)
 
-def test_load_file_yaml():
-    yaml_file = 'test_file.yaml'
-    with open(yaml_file, 'w') as f:
-        f.write("key1: value1\nkey2: value2\n")
 
-    data = load_yaml(yaml_file)
-    assert data == {"key1": "value1", "key2": "value2"}
+def remove_test_files():
+    os.remove('test1.yaml')
+    os.remove('test2.json')
 
-    os.remove(yaml_file)
 
-def test_gendiff_json():
-    json_file1 = 'test_file1.json'
-    json_file2 = 'test_file2.json'
-    with open(json_file1, 'w') as f:
-        json.dump({"key1": "value1", "key2": "value2"}, f)
-    with open(json_file2, 'w') as f:
-        json.dump({"key2": "value2", "key3": "value3"}, f)
+def test_load_file():
+    create_test_files()  
 
-    expected_diff = "{\n  - key1: value1\n  + key3: value3\n}"
-    diff = gendiff(json_file1, json_file2)
-    assert diff == expected_diff
+    yaml_content = {'key1': 'value1', 'key2': 'value2'}
+    json_content = {'key1': 'value1', 'key3': 'value3'}
 
-    os.remove(json_file1)
-    os.remove(json_file2)
+    assert load_yaml('test1.yaml') == yaml_content
+    assert load_json('test2.json') == json_content
 
-def test_gendiff_yaml():
-    yaml_file1 = 'test_file1.yaml'
-    yaml_file2 = 'test_file2.yaml'
-    with open(yaml_file1, 'w') as f:
-        f.write("key1: value1\nkey2: value2\n")
-    with open(yaml_file2, 'w') as f:
-        f.write("key2: value2\nkey3: value3\n")
+    try:
+        load_file('test.txt')
+    except ValueError as e:
+        assert str(e) == "Unsupported file format"
 
-    expected_diff = "{\n  - key1: value1\n  + key3: value3\n}"
-    diff = gendiff(yaml_file1, yaml_file2)
-    assert diff == expected_diff
+    remove_test_files()  
 
-    os.remove(yaml_file1)
-    os.remove(yaml_file2)
 
-if __name__ == "__main__":
-    test_load_file_json()
-    test_load_file_yaml()
-    test_gendiff_json()
-    test_gendiff_yaml()
+def test_compute_diff():
+    data1 = {'key1': 'value1', 'key2': 'value2'}
+    data2 = {'key1': 'value1', 'key3': 'value3'}
+
+    expected_diff = [
+        {'key': 'key1', 'type': 'unchanged', 'value': 'value1'},
+        {'key': 'key2', 'type': 'removed', 'old_value': 'value2'},
+        {'key': 'key3', 'type': 'added', 'new_value': 'value3'}
+    ]
+
+    assert compute_diff(data1, data2) == expected_diff
+
+
+def test_format_value():
+    assert format_value(True) == 'true'
+    assert format_value(False) == 'false'
+    assert format_value(None) == 'null'
+    assert format_value(42) == 42
+    assert format_value("test") == "test"
+
+
+def test_stylish():
+    create_test_files() 
+
+    expected_output = "{\n" \
+                      "    key1: value1\n" \
+                      "  - key2: value2\n" \
+                      "  + key3: value3\n" \
+                      "}"
+
+    assert generate_diff('test1.yaml', 'test2.json') == expected_output
+    
+    remove_test_files() 
+
+
+def test_generate_diff():
+    create_test_files()  
+
+    expected_diff = "{\n" \
+                    "    key1: value1\n" \
+                    "  - key2: value2\n" \
+                    "  + key3: value3\n" \
+                    "}"
+
+    assert generate_diff('test1.yaml', 'test2.json') == expected_diff
+
+    remove_test_files()  
+
+
+def run_tests():
+    test_load_file()
+    test_compute_diff()
+    test_format_value()
+    test_stylish()
+    test_generate_diff()
+
+
+run_tests()

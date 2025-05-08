@@ -1,6 +1,7 @@
 import os
-import pytest  
-from gendiff.load_yaml import load_yaml  
+
+from gendiff.load_yaml import load_yaml
+
 
 def test_load_simple_yaml():
   
@@ -8,7 +9,6 @@ def test_load_simple_yaml():
     with open(yaml_file, 'w') as f:
         f.write("key1: value1\nkey2: value2\n\nkey3: value3\n")
 
-  
     data = load_yaml(yaml_file)
 
     expected_data = {
@@ -19,6 +19,7 @@ def test_load_simple_yaml():
     assert data == expected_data
 
     os.remove(yaml_file)
+
 
 if __name__ == "__main__":
     test_load_simple_yaml()
