@@ -26,4 +26,6 @@ def format_value(value):
         return '[complex value]'
     elif value is None:
         return 'null'
-    return str(value).lower() if isinstance(value, bool) else value
+    elif isinstance(value, bool):
+        return str(value).lower()
+    return str(value)  
