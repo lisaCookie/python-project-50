@@ -33,8 +33,18 @@ def test_format_plain_removed():
 
 def test_format_plain_modified():
     diff = [
-        {'key': 'common.setting1', 'type': 'modified', 'old_value': 'old_value1', 'new_value': 'new_value1'},
-        {'key': 'common.setting2', 'type': 'modified', 'old_value': 10, 'new_value': 20},
+        {
+            'key': 'common.setting1',
+            'type': 'modified',
+            'old_value': 'old_value1',
+            'new_value': 'new_value1'
+        },
+        {
+            'key': 'common.setting2',
+            'type': 'modified',
+            'old_value': 10,
+            'new_value': 20
+        },
     ]
     expected_output = (
         "Property 'common.setting1' was updated. From old_value1 to new_value1\n"
@@ -53,7 +63,12 @@ def test_format_plain_nested():
                 {'key': 'setting2', 'type': 'removed'},
             ]
         },
-        {'key': 'common.setting3', 'type': 'modified', 'old_value': 'old_value3', 'new_value': 'new_value3'},
+        {
+            'key': 'common.setting3',
+            'type': 'modified',
+            'old_value': 'old_value3',
+            'new_value': 'new_value3'
+        },
     ]
     expected_output = (
         "Property 'common.setting1' was added with value: value1\n"
@@ -69,7 +84,4 @@ def test_format_value():
     assert format_value(False) == 'false'
     assert format_value({'key': 'value'}) == '[complex value]'
     assert format_value('string') == 'string'
-    assert format_value(123) == '123'
-
-
-
+    assert format_value(42) == 42

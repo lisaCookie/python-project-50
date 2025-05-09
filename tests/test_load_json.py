@@ -1,8 +1,10 @@
 import json
-import os
-import pytest
 from unittest.mock import mock_open, patch
+
+import pytest
+
 from gendiff.load_json import load_json
+
 
 def test_load_json_success():
     mock_data = {'key1': 'value1', 'key2': 'value2'}

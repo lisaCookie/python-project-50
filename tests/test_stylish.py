@@ -1,5 +1,4 @@
-import pytest
-from formatters.stylish import stylish, format_value
+from formatters.stylish import format_value, stylish
 
 
 def test_format_value():
@@ -36,8 +35,18 @@ def test_stylish_removed():
 
 def test_stylish_modified():
     diff = [
-        {'key': 'common.setting1', 'type': 'modified', 'old_value': 'old_value1', 'new_value': 'new_value1'},
-        {'key': 'common.setting2', 'type': 'modified', 'old_value': 10, 'new_value': 20},
+        {
+            'key': 'common.setting1',
+            'type': 'modified',
+            'old_value': 'old_value1',
+            'new_value': 'new_value1'
+        },
+        {
+            'key': 'common.setting2',
+            'type': 'modified',
+            'old_value': 10,
+            'new_value': 20
+        },
     ]
     expected_output = (
         "  - common.setting1: old_value1\n"
@@ -58,7 +67,12 @@ def test_stylish_nested():
                 {'key': 'setting2', 'type': 'removed', 'old_value': 'value2'},
             ]
         },
-        {'key': 'common.setting3', 'type': 'modified', 'old_value': 'old_value3', 'new_value': 'new_value3'},
+        {
+            'key': 'common.setting3',
+            'type': 'modified',
+            'old_value': 'old_value3',
+            'new_value': 'new_value3'
+        },
     ]
     expected_output = (
         "    common: {\n"

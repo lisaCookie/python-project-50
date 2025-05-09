@@ -5,6 +5,7 @@ def format_value(value):
         return 'null'
     return value
 
+
 def stylish(diff, depth=0):
     indent = '    ' * depth
     result = []

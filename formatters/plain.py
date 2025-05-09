@@ -17,15 +17,16 @@ def format_plain(diff, path=''):
         elif item['type'] == 'nested':
             result.append(format_plain(item['children'], current_path))
       
-
     return '\n'.join(result)
 
 
 def format_value(value):
-    if isinstance(value, dict):
-        return '[complex value]'
-    elif value is None:
+    if value is None:
         return 'null'
     elif isinstance(value, bool):
-        return str(value).lower()
-    return str(value)  
+        return 'true' if value else 'false'
+    elif isinstance(value, (int, float)):
+        return value  
+    elif isinstance(value, dict):
+        return '[complex value]'  
+    return str(value) 
