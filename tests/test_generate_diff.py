@@ -9,6 +9,7 @@ from gendiff.generate_diff import (
 )
 from gendiff.load_json import load_json
 from gendiff.load_yaml import load_yaml
+from gendiff.generate_diff import generate_diff
 
 
 def create_test_files():
