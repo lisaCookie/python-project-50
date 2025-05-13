@@ -1,9 +1,9 @@
 import json
 import sys
 
-from formatters.json import format_json
-from formatters.plain import format_plain
-from formatters.stylish import stylish
+from gendiff.formatters.json import format_json
+from gendiff.formatters.plain import format_plain
+from gendiff.formatters.stylish import stylish
 from gendiff.load_yaml import load_yaml
 
 

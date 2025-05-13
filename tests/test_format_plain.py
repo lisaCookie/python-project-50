@@ -1,6 +1,6 @@
 
 
-from formatters.plain import format_plain, format_value
+from gendiff.formatters.plain import format_plain, format_value
 
 
 def test_format_plain_added():

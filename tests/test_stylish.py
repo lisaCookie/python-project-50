@@ -1,4 +1,4 @@
-from formatters.stylish import format_value, stylish
+from gendiff.formatters.stylish import format_value, stylish
 
 
 def test_format_value():

@@ -1,7 +1,7 @@
 import json
 import os
 
-from formatters.plain import format_value
+from gendiff.formatters.plain import format_value
 from gendiff.generate_diff import (
     compute_diff,
     generate_diff,
