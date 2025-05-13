@@ -1,11 +1,7 @@
-import json
-import os
 
-from formatters.plain import format_value
-from gendiff.load_json import load_json
-from formatters.plain import format_plain
 
-import pytest
+from formatters.plain import format_plain, format_value
+
 
 def test_format_plain_added():
     diff = [
@@ -46,8 +42,10 @@ def test_format_plain_modified():
             'new_value': 20
         },
     ]
+
     expected_output = (
-        "Property 'common.setting1' was updated. From old_value1 to new_value1\n"
+        "Property 'common.setting1' was updated. "
+        "From old_value1 to new_value1\n"
         "Property 'common.setting2' was updated. From 10 to 20"
     )
     assert format_plain(diff) == expected_output
