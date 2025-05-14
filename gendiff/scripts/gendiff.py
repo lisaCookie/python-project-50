@@ -1,7 +1,7 @@
 import os
 import sys
 
-from gendiff.generate_diff import generate_diff
+from gendiff.gendiff import generate_diff
 from gendiff.help_document import format_help, help_text, format_usage
 
 def main():
