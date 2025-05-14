@@ -1,6 +1,6 @@
 import os
 
-from gendiff.load_yaml import load_yaml
+from gendiff.load_yaml import load_yaml, parse_yaml
 
 
 def test_load_simple_yaml():
