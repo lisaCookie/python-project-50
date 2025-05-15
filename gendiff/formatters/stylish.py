@@ -1,9 +1,8 @@
-def format_value(value):
-    if isinstance(value, bool):
-        return str(value).lower()
-    elif value is None:
-        return 'null'
-    return value
+import json
+
+def format_value(nested_list):
+    return json.dumps(nested_list, indent=4, ensure_ascii=False).replace('"', '')
+
 
 
 def stylish(diff, depth=0):
@@ -31,4 +30,4 @@ def stylish(diff, depth=0):
             result.append(f"{indent}    {key}: "
                           f"{format_value(item['value'])}")
 
-    return '\n'.join(result)
+    return '\n'.join(result)  
