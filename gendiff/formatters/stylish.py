@@ -1,8 +1,9 @@
 import json
 
-def format_value(nested_list):
-    return json.dumps(nested_list, indent=4, ensure_ascii=False).replace('"', '')
 
+def format_value(nested_list):
+    json_str = json.dumps(nested_list, indent=4, ensure_ascii=False)
+    return json_str.replace('"', '')
 
 
 def stylish(diff, depth=0):

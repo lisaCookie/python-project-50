@@ -1,5 +1,6 @@
 import sys
 
+
 def format_help():
     text = """
     usage: gendiff [-h] [-f FORMAT] first_file second_file
@@ -31,7 +32,6 @@ def help_text():
         print("\n'Plain': displays changes as simple sentences.")
         print("\n'JSON':' returns data in standard JSON format.")
     
-      
 
 def format_usage():
     if len(sys.argv) > 1 and sys.argv[1] in ('--format', '--f'):

@@ -2,7 +2,8 @@ import os
 import sys
 
 from gendiff.generate_diff import generate_diff
-from gendiff.help_document import format_help, help_text, format_usage
+from gendiff.help_document import format_help, format_usage, help_text
+
 
 def main():
     if len(sys.argv) < 2:

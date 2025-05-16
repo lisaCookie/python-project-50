@@ -1,8 +1,3 @@
-host: hexlet.io
-timeout: 50
-proxy: 192.168.12.42
-follow: false
-
 common:
   setting1: Value 1
   setting2: 200
