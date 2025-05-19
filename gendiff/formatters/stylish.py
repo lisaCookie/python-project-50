@@ -10,13 +10,13 @@ def str_format(value, depth=2):
     if isinstance(value, bool):
         return str(value).lower()
     if isinstance(value, dict):
-        indent = SEP * (depth + 4)
+        indent = SEP * (depth + 2)
         lines = [
             f"{indent}{NONE}{key}: {str_format(inner_value, depth + 4)}"
             for key, inner_value in value.items()
         ]
         formatted_string = '\n'.join(lines)
-        end_indent = SEP * (depth + 2)
+        end_indent = SEP * (depth)
         return f"{{\n{formatted_string}\n{end_indent}}}"
     return str(value)
 
