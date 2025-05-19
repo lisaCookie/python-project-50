@@ -6,7 +6,7 @@ SEP = " "
 
 def str_format(value, depth=2):
     if value is None:
-        return SEP
+        return " "
     if isinstance(value, bool):
         return str(value).lower()
     if isinstance(value, dict):
