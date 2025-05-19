@@ -1,10 +1,4 @@
-from gendiff.formatters.stylish import format_value, stylish
-
-
-def test_format_value():
-    result = format_value({'key1': 'value1', 'key2': 'value2'})
-    expected = "{\n    key1: value1,\n    key2: value2\n}"
-    assert result == expected
+from gendiff.formatters.stylish import stylish
 
 
 def test_stylish_added():
@@ -45,8 +39,12 @@ def test_stylish_nested():
         ]}
     ]
     result = stylish(diff)
-    expected = "    key1: {\n        key2: value2\n    }"
-    assert result.strip() == expected.strip()
+    expected = (
+        "    key1: {\n"
+        "        key2: value2\n"
+        "    }"
+    )
+    assert result == expected
 
 
 def test_stylish_unchanged():
@@ -74,7 +72,6 @@ def test_stylish_complex():
             ]
         }
     ]
-    
     result = stylish(diff)
     expected = (
         "  + key1: value1\n"
@@ -85,4 +82,4 @@ def test_stylish_complex():
         "        key5: value5\n"
         "    }"
     )
-    assert result.strip() == expected.strip()
+    assert result == expected

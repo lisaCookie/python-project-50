@@ -1,34 +1,61 @@
-import json
+NONE = '  '
+ADD = '+ '
+DELETE = '- '
+SEP = " "
 
 
-def format_value(nested_list):
-    json_str = json.dumps(nested_list, indent=4, ensure_ascii=False)
-    return json_str.replace('"', '')
+def str_format(value, depth=2):
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return str(value).lower()
+    if isinstance(value, dict):
+        indent = SEP * (depth + 4)
+        lines = [
+            f"{indent}{NONE}{key}: {str_format(inner_value, depth + 4)}"
+            for key, inner_value in value.items()
+        ]
+        formatted_string = '\n'.join(lines)
+        end_indent = SEP * (depth + 2)
+        return f"{{\n{formatted_string}\n{end_indent}}}"
+    return str(value)
 
 
-def stylish(diff, depth=0):
-    indent = '    ' * depth
+def stylish(diff, depth=2):
+    indent = SEP * depth
     result = []
 
     for item in diff:
         key = item['key']
-        if item['type'] == 'added':
-            result.append(f"{indent}  + {key}: "
-                          f"{format_value(item['new_value'])}")
-        elif item['type'] == 'removed':
-            result.append(f"{indent}  - {key}: "
-                          f"{format_value(item['old_value'])}")
-        elif item['type'] == 'modified':
-            result.append(f"{indent}  - {key}: "
-                          f"{format_value(item['old_value'])}")
-            result.append(f"{indent}  + {key}: "
-                          f"{format_value(item['new_value'])}")
-        elif item['type'] == 'nested':
-            result.append(f"{indent}    {key}: {{")
-            result.append(stylish(item['children'], depth + 1))
-            result.append(f"{indent}    }}")
-        elif item['type'] == 'unchanged':
-            result.append(f"{indent}    {key}: "
-                          f"{format_value(item['value'])}")
+        value_type = item['type']
+        old_value = item.get('old_value')
+        new_value = item.get('new_value')
+        children = item.get('children')
+        value = item.get('value')
 
-    return '\n'.join(result)  
+        if value_type == 'added':
+            result.append(
+                f"{indent}{ADD}{key}: {str_format(new_value, depth + 2)}"
+            )
+        elif value_type == 'removed':
+            result.append(
+                f"{indent}{DELETE}{key}: {str_format(old_value, depth + 2)}"
+            )
+        elif value_type == 'modified':
+            result.append(
+                f"{indent}{DELETE}{key}: {str_format(old_value, depth + 2)}"
+            )
+            result.append(
+                f"{indent}{ADD}{key}: {str_format(new_value, depth + 2)}"
+            )
+        elif value_type == 'nested':
+            nested_indent = SEP * (depth)
+            result.append(f"{nested_indent}{NONE}{key}: {{")
+            result.append(stylish(children, depth + 4))
+            result.append(f"{nested_indent}  }}")
+        elif value_type == 'unchanged':
+            result.append(
+                f"{indent}{NONE}{key}: {str_format(value, depth + 2)}"
+            )
+
+    return '\n'.join(result)
