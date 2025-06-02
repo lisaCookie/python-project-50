@@ -20,7 +20,6 @@ def str_format(value, depth=2):
         return f"{{\n{formatted_string}\n{end_indent}}}"
     return str(value)
 
-
 def stylish(diff, depth=2):
     indent = SEP * depth
     result = []
@@ -53,6 +52,7 @@ def stylish(diff, depth=2):
             result.append(f"{nested_indent}{NONE}{key}: {{")
             result.append(stylish(children, depth + 4))
             result.append(f"{nested_indent}  }}")
+    
         elif value_type == 'unchanged':
             result.append(
                 f"{indent}{NONE}{key}: {str_format(value, depth + 2)}"

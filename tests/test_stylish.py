@@ -1,5 +1,16 @@
-from gendiff.formatters.stylish import stylish
+from gendiff.formatters.stylish import str_format, stylish
 
+def test_str_format():
+    assert str_format(None) == 'null'
+    assert str_format(True) == 'true'
+    assert str_format(False) == 'false'
+    assert str_format('hello') == 'hello'
+    assert str_format(42) == '42'
+    sample_dict = {'a': 1, 'b': {'c': None}}
+    result = str_format(sample_dict, depth=2)
+    assert 'a: 1' in result
+    assert 'b:' in result
+    assert 'c: null' in result
 
 def test_stylish_added():
     diff = [{'key': 'key1', 'type': 'added', 'new_value': 'value1'}]
