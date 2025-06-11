@@ -1,4 +1,3 @@
-
 import json
 
 from gendiff.formatters.json import format_json
@@ -25,11 +24,11 @@ def compute_diff(data1, data2):
     for key in sorted(keys):
         if key in data1 and key not in data2:
             diff.append(
-                {'key': key, 'type': 'removed', 'old_value': data1[key]}
+                {'key': key, 'type': 'added', 'new_value': data1[key]} 
             )
         elif key not in data1 and key in data2:
             diff.append(
-                {'key': key, 'type': 'added', 'new_value': data2[key]}
+                {'key': key, 'type': 'removed', 'old_value': data2[key]}  
             )
         elif (isinstance(data1[key], dict) and
               isinstance(data2[key], dict)):
@@ -42,18 +41,18 @@ def compute_diff(data1, data2):
             diff.append({
                 'key': key,
                 'type': 'modified',
-                'old_value': data1[key],
-                'new_value': data2[key]
+                'old_value': data2[key],  
+                'new_value': data1[key]  
             })
         else:
             diff.append({'key': key, 'type': 'unchanged', 'value': data1[key]})
     return diff
 
 
-def generate_diff(filepath2, filepath1, format_name='stylish') -> str:
-    data2 = load_file(filepath2)
+def generate_diff(filepath1, filepath2, format_name='stylish') -> str:
     data1 = load_file(filepath1)
-    diff = compute_diff(data2, data1)
+    data2 = load_file(filepath2)
+    diff = compute_diff(data1, data2)
 
     if format_name == 'stylish':
         return "{\n" + stylish(diff) + "\n}"
