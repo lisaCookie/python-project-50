@@ -50,10 +50,10 @@ def compute_diff(data1, data2):
     return diff
 
 
-def generate_diff(filepath1, filepath2, format_name='stylish') -> str:
-    data1 = load_file(filepath1)
+def generate_diff(filepath2, filepath1, format_name='stylish') -> str:
     data2 = load_file(filepath2)
-    diff = compute_diff(data1, data2)
+    data1 = load_file(filepath1)
+    diff = compute_diff(data2, data1)
 
     if format_name == 'stylish':
         return "{\n" + stylish(diff) + "\n}"

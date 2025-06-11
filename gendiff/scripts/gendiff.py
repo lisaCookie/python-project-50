@@ -28,7 +28,7 @@ def main():
     filepath1 = os.path.join('tests', 'test_data', sys.argv[2])  
     filepath2 = os.path.join('tests', 'test_data', sys.argv[3])  
 
-    differences = generate_diff(filepath1, filepath2, format_name=format_name)
+    differences = generate_diff(filepath2, filepath1, format_name=format_name)
     print(differences)
 
 
