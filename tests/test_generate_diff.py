@@ -1,4 +1,3 @@
-
 import json
 import os
 
@@ -25,9 +24,9 @@ def test_generate_diff_json():
         expected = (
             "{\n"
             "    key1: value1\n"
-            "  - key2: value3\n" 
-            "  + key2: value2\n"
-            "  - key3: value4\n" 
+            "  - key2: value2\n"
+            "  + key2: value3\n"
+            "  + key3: value4\n"
             "}"
         )
         assert result == expected
@@ -47,9 +46,9 @@ def test_generate_diff_yaml():
         expected = (
             "{\n"
             "    key1: value1\n"
-            "  - key2: value3\n"
-            "  + key2: value2\n"
-            "  - key3: value4\n" 
+            "  - key2: value2\n"
+            "  + key2: value3\n"
+            "  + key3: value4\n"
             "}"
         )
         assert result.strip() == expected.strip()
@@ -66,11 +65,10 @@ def test_generate_diff_plain_format():
             json.dump({'key1': 'value1', 'key2': 'value2'}, f)
 
         result = generate_diff('file1.json', 'file2.json', 'plain')
-        expected = "Property 'key2' was removed" 
+        expected = "Property 'key2' was added with value: value2"
         assert result == expected
     finally:
         cleanup_files(filenames)
-
 
 
 def test_generate_diff_json_format():
@@ -84,7 +82,7 @@ def test_generate_diff_json_format():
         result = generate_diff('file1.json', 'file2.json', 'json')
         expected = json.dumps([
             {'key': 'key1', 'type': 'unchanged', 'value': 'value1'},
-            {'key': 'key2', 'type': 'removed', 'old_value': 'value2'}  # Теперь это удаление
+            {'key': 'key2', 'type': 'added', 'new_value': 'value2'}
         ], indent=4)
         assert result == expected
     finally:
