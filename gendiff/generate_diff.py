@@ -12,11 +12,11 @@ def compute_diff(data1, data2):
     for key in sorted(keys):
         if key in data1 and key not in data2:
             diff.append(
-                {'key': key, 'type': 'added', 'new_value': data1[key]} 
+                {'key': key, 'type': 'removed', 'old_value': data1[key]}
             )
         elif key not in data1 and key in data2:
             diff.append(
-                {'key': key, 'type': 'removed', 'old_value': data2[key]}  
+                {'key': key, 'type': 'added', 'new_value': data2[key]}
             )
         elif (isinstance(data1[key], dict) and
               isinstance(data2[key], dict)):
@@ -29,12 +29,13 @@ def compute_diff(data1, data2):
             diff.append({
                 'key': key,
                 'type': 'modified',
-                'old_value': data2[key], 
-                'new_value': data1[key]   
+                'old_value': data1[key],
+                'new_value': data2[key]
             })
         else:
             diff.append({'key': key, 'type': 'unchanged', 'value': data1[key]})
     return diff
+
 
 def generate_formatters(diff, format_name='stylish') -> str:
 
