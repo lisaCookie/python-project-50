@@ -3,19 +3,7 @@ import json
 from gendiff.formatters.json import format_json
 from gendiff.formatters.plain import format_plain
 from gendiff.formatters.stylish import stylish
-from gendiff.load_yaml import parse_yaml
-
-
-def load_file(filepath):
-    if filepath.endswith('.yaml') or filepath.endswith('.yml'):
-        with open(filepath, 'r') as f:
-            content = f.read()
-            return parse_yaml(content)
-    elif filepath.endswith('.json'):
-        with open(filepath, 'r') as f:
-            return json.load(f)
-    else:
-        raise ValueError("Unsupported file format")
+from gendiff.parsing_files import parse_data_from_file
 
 
 def compute_diff(data1, data2):
@@ -48,17 +36,20 @@ def compute_diff(data1, data2):
             diff.append({'key': key, 'type': 'unchanged', 'value': data1[key]})
     return diff
 
-
-def generate_diff(filepath1, filepath2, format_name='stylish') -> str:
-    data1 = load_file(filepath1)
-    data2 = load_file(filepath2)
-    diff = compute_diff(data1, data2)
+def generate_formatters(diff, format_name='stylish') -> str:
 
     if format_name == 'stylish':
-        return "{\n" + stylish(diff) + "\n}"
+        lines = stylish(diff)
+        return "{\n" + '\n'.join(lines) + "\n}"
     elif format_name == 'plain':
         return format_plain(diff)
     elif format_name == 'json':
         return format_json(diff)
     else:
         raise ValueError("Unsupported format name")
+    
+def generate_diff(file_path1, file_path2, formatter='stylish'):
+    first_file = parse_data_from_file(file_path1)
+    second_file = parse_data_from_file(file_path2)
+    diff = compute_diff(first_file, second_file)
+    return generate_formatters(diff, formatter)

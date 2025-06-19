@@ -22,8 +22,8 @@ def str_format(value, depth=2):
 
 
 def stylish(diff, depth=2):
+    lines = []
     indent = SEP * depth
-    result = []
 
     for item in diff:
         key = item['key']
@@ -34,28 +34,29 @@ def stylish(diff, depth=2):
         value = item.get('value')
 
         if value_type == 'added':
-            result.append(
+            lines.append(
                 f"{indent}{ADD}{key}: {str_format(new_value, depth + 2)}"
             )
         elif value_type == 'removed':
-            result.append(
+            lines.append(
                 f"{indent}{DELETE}{key}: {str_format(old_value, depth + 2)}"
             )
         elif value_type == 'modified':
-            result.append(
+            lines.append(
                 f"{indent}{DELETE}{key}: {str_format(old_value, depth + 2)}"
             )
-            result.append(
+            lines.append(
                 f"{indent}{ADD}{key}: {str_format(new_value, depth + 2)}"
             )
         elif value_type == 'nested':
             nested_indent = SEP * (depth)
-            result.append(f"{nested_indent}{NONE}{key}: {{")
-            result.append(stylish(children, depth + 4))
-            result.append(f"{nested_indent}  }}")
+            lines.append(f"{nested_indent}{NONE}{key}: {{")
+            nested_lines = stylish(children, depth + 4)
+            lines.extend(nested_lines)
+            lines.append(f"{nested_indent}  }}")
         elif value_type == 'unchanged':
-            result.append(
+            lines.append(
                 f"{indent}{NONE}{key}: {str_format(value, depth + 2)}"
             )
 
-    return '\n'.join(result)
+    return lines

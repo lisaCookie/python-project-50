@@ -1,36 +1,31 @@
-
-import os
-import sys
-
 from gendiff.generate_diff import generate_diff
 from gendiff.help_document import format_help, format_usage, help_text
+import argparse
+
+
+def parser_function():
+    parser = argparse.ArgumentParser(
+        description='Compares two configuration files and shows a difference.'
+    )
+    parser.add_argument('first_file')
+    parser.add_argument('second_file')
+    parser.add_argument("-f", "--format",
+                        help='set format of output',
+                        default='stylish', type=str
+    )
+
+    return parser.parse_args()
 
 
 def main():
-    if len(sys.argv) < 2:
-        format_help()
-        sys.exit(1)
+    args = parser_function()
 
-    if sys.argv[1] in ('--help', '--h'):
-        help_text()
-        sys.exit(0)
+    filepath1 = args.first_file
+    filepath2 = args.second_file
 
-    if sys.argv[1] in ('--format', '--f'):
-        format_usage()
-        sys.exit(0)
-
-    if len(sys.argv) != 4:
-        print("Usage: gendiff <format> file1.yaml file2.yaml or "
-              "gendiff <format> file1.json file2.json")
-        sys.exit(1)
-
-    format_name = sys.argv[1]
-    filepath1 = os.path.join('tests', 'test_data', sys.argv[2])  
-    filepath2 = os.path.join('tests', 'test_data', sys.argv[3])  
-
-    differences = generate_diff(filepath1, filepath2, format_name=format_name)
+    differences = generate_diff(filepath1, filepath2, formatter=args.format)
     print(differences)
+    
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
