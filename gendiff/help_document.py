@@ -28,6 +28,7 @@ def help_text():
     print("\n'Plain': displays changes as simple sentences.")
     print("\n'JSON':' returns data in standard JSON format.")
 
+
 def format_usage():
     print("Usage examples:")
     print("  gendiff   file_path1 file_path2")

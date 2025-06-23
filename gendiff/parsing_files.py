@@ -1,15 +1,18 @@
 import json
-import os 
+import os
+
 
 def get_file_format(file_path):
     _, extension = os.path.splitext(file_path)
     return extension[1:].lower()
 
+
 def read_file(file_path):
     with open(file_path, encoding='utf-8') as file:
         return file.read()
 
-def parse_yaml(yaml_content):
+
+def parse_yaml(yaml_content):  # noqa: C901
     lines = yaml_content.strip().split('\n')
     result = {}
     stack = [(result, -1)]
@@ -47,11 +50,14 @@ def parse_yaml(yaml_content):
             elif value.lower() == 'null':
                 value = None
             else:
-                if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+                if (value.startswith('"') and value.endswith('"')) or (
+                    value.startswith("'") and value.endswith("'")):
                     value = value[1:-1]
             current_dict[key] = value
+    current_dict[key] = value
 
     return result
+
 
 def parse_data(data, format):
     if format == 'json':
@@ -60,6 +66,7 @@ def parse_data(data, format):
         return parse_yaml(data)
     else:
         raise ValueError(f'Unsupported file format: {format}')
+
 
 def parse_data_from_file(file_path):
     data = read_file(file_path)

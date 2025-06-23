@@ -1,6 +1,6 @@
-from gendiff.generate_diff import generate_diff
-from gendiff.help_document import format_help, format_usage, help_text
 import argparse
+
+from gendiff.generate_diff import generate_diff
 
 
 def parser_function():

@@ -1,4 +1,3 @@
-import json
 
 from gendiff.formatters.json import format_json
 from gendiff.formatters.plain import format_plain
@@ -49,6 +48,7 @@ def generate_formatters(diff, format_name='stylish') -> str:
     else:
         raise ValueError("Unsupported format name")
     
+
 def generate_diff(file_path1, file_path2, formatter='stylish'):
     first_file = parse_data_from_file(file_path1)
     second_file = parse_data_from_file(file_path2)
