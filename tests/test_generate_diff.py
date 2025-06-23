@@ -65,7 +65,7 @@ def test_generate_diff_plain_format():
             json.dump({'key1': 'value1', 'key2': 'value2'}, f)
 
         result = generate_diff('file1.json', 'file2.json', 'plain')
-        expected = "Property 'key2' was added with value: value2"
+        expected = "Property 'key2' was added with value: 'value2'"  # добавлены кавычки
         assert result == expected
     finally:
         cleanup_files(filenames)
