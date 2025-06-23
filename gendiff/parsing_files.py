@@ -44,6 +44,8 @@ def parse_yaml(yaml_content):
                 value = False
             elif value.isdigit():
                 value = int(value)
+            elif value.lower() == 'null':
+                value = None
             else:
                 if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
                     value = value[1:-1]

@@ -26,7 +26,10 @@ def format_value(value):
     elif isinstance(value, bool):
         return 'true' if value else 'false'
     elif isinstance(value, (int, float)):
-        return value  
+        return str(value)
     elif isinstance(value, dict):
-        return '[complex value]'  
-    return str(value) 
+        return '[complex value]'
+    elif isinstance(value, str):
+        return f"'{value}'"
+    else:
+        return str(value)
