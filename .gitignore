@@ -2,5 +2,6 @@ __pycache__
 .venv
 .python-version
 main.py
-.coverage
 demo.cast
+coverage.xml
+.coverage
