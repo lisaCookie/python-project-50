@@ -1,7 +1,9 @@
 import json
 import os
+import sys
 
 from gendiff.generate_diff import generate_diff
+from gendiff.scripts.gendiff import parser_function
 
 
 def cleanup_files(filenames):
@@ -150,3 +152,27 @@ def test_generate_diff_empty_files():
         assert result == expected
     finally:
         cleanup_files(filenames)
+
+
+def test_parser_function_with_default_format():
+    sys.argv = ['gendiff', 'file1.json', 'file2.json']
+    args = parser_function()
+    assert args.first_file == 'file1.json'
+    assert args.second_file == 'file2.json'
+    assert args.format == 'stylish'
+
+
+def test_parser_function_with_custom_format():
+    sys.argv = ['gendiff', 'file1.json', 'file2.json', '--format', 'plain']
+    args = parser_function()
+    assert args.first_file == 'file1.json'
+    assert args.second_file == 'file2.json'
+    assert args.format == 'plain'
+
+
+def test_parser_function_with_short_format():
+    sys.argv = ['gendiff', 'file1.json', 'file2.json', '-f', 'json']
+    args = parser_function()
+    assert args.first_file == 'file1.json'
+    assert args.second_file == 'file2.json'
+    assert args.format == 'json'
