@@ -33,3 +33,5 @@ jobs:
             -Dsonar.organization=lisacookie
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.python.version=3.12
+            -Dsonar.coverage.exclusions=tests/**
+            -Dsonar.exclusions=tests/**
