@@ -87,3 +87,66 @@ def test_generate_diff_json_format():
         assert result == expected
     finally:
         cleanup_files(filenames)
+
+
+def test_generate_diff_nested_json():
+    filenames = ['file1.json', 'file2.json']
+    try:
+        with open('file1.json', 'w') as f:
+            json.dump({'key1': {'nested': 'value'}, 'key2': 'value2'}, f)
+        with open('file2.json', 'w') as f:
+            json.dump({'key1': {'nested': 'changed'}, 'key2': 'value3'}, f)
+
+        result = generate_diff('file1.json', 'file2.json', 'stylish')
+        expected = (
+            "{\n"
+            "    key1: {\n"
+            "      - nested: value\n"
+            "      + nested: changed\n"
+            "    }\n"
+            "  - key2: value2\n"
+            "  + key2: value3\n"
+            "}"
+        )
+        assert result == expected
+    finally:
+        cleanup_files(filenames)
+
+
+def test_generate_diff_nested_yaml():
+    filenames = ['file1.yaml', 'file2.yaml']
+    try:
+        with open('file1.yaml', 'w') as f:
+            f.write("key1:\n  nested: value\nkey2: value2")
+        with open('file2.yaml', 'w') as f:
+            f.write("key1:\n  nested: changed\nkey2: value3")
+
+        result = generate_diff('file1.yaml', 'file2.yaml', 'stylish')
+        expected = (
+            "{\n"
+            "    key1: {\n"
+            "      - nested: value\n"
+            "      + nested: changed\n"
+            "    }\n"
+            "  - key2: value2\n"
+            "  + key2: value3\n"
+            "}"
+        )
+        assert result.strip() == expected.strip()
+    finally:
+        cleanup_files(filenames)
+
+
+def test_generate_diff_empty_files():
+    filenames = ['file1.json', 'file2.json']
+    try:
+        with open('file1.json', 'w') as f:
+            json.dump({}, f)
+        with open('file2.json', 'w') as f:
+            json.dump({}, f)
+
+        result = generate_diff('file1.json', 'file2.json', 'stylish')
+        expected = "{\n\n}"
+        assert result == expected
+    finally:
+        cleanup_files(filenames)
