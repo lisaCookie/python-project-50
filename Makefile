@@ -12,7 +12,7 @@ lint:
 
 test-coverage:
 
-	uv run pytest --cov
+	uv run pytest --cov --cov-report=xml
 
 
 check:
